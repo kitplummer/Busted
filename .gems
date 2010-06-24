@@ -1,0 +1,2 @@
+httparty --version '>= 0.6.0'
+builder --version '>= 2.1.2'
