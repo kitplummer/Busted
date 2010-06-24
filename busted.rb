@@ -46,7 +46,8 @@ get '/route/:id/busses' do |route|
           b.lat bus_data[0]
           b.lng bus_data[1]
           b.direction bus_data[2]
-          b.nextstop bus_data[3]
+          b.comment! "no clue what Next Timepoint means???"
+          b.tostation bus_data[3]
         }
       end
     }
