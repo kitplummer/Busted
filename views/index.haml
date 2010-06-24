@@ -1,7 +1,6 @@
 %html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
     %body
         %h2 Busted: A SunTran WebWatch Feed Proxy
-        %br
         %h3 GETful API
         %a(href="/alpha/routes/") /alpha/routes/ - Returns listing of routes
         %br
@@ -12,3 +11,8 @@
         %a(href="/alpha/route/1/stops") /alpha/route/1/stops - Returns all stops (including stations) for route
         %br
         %a(href="/alpha/route/1/busses") /alpha/route/1/busses - Returns all busses on route, including positions
+        %br
+        %p Just scratching KML support...but here's a taste (I've test in Google Earth).  For the sake of debugging I've not set the content_type to application/vnd.google-earth.kml+xml yet, because it is a dev/debug pain.  So, if you just want to download, you'll have to SaveAs from your browser.
+        %a(href="/alpha/route/1/busses.kml") /alpha/route/1/busses.kml 
+        %p The code for this thing is available at:
+        %a(href="http://github.com/kitplummer/Busted") http://github.com/kitplummer/Busted
