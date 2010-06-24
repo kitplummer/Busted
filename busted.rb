@@ -11,27 +11,27 @@ get '/' do
 end
 
 
-get '/route/:id' do |route|
+get '/alpha/route/:id' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   build_xml(route, "all")
 end
 
-get '/route/:id/stations' do |route|
+get '/alpha/route/:id/stations' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   build_xml(route, "stations")
 end
 
-get '/route/:id/stops' do |route|
+get '/alpha/route/:id/stops' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   build_xml(route, "stops")
 end
 
-get '/route/:id/busses' do |route|
+get '/alpha/route/:id/busses' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   build_xml(route, "busses")
 end
 
-get '/routes/' do
+get '/alpha/routes/' do
   content_type 'application/xml', :charset => 'utf-8'
 
 '''<routes>    
