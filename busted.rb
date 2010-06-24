@@ -4,12 +4,9 @@ require 'httparty'
 require 'builder'
 require 'haml'
 
-ALL, STATIONS, STOPS, BUSSES = false
-
 get '/' do 
   haml :index
 end
-
 
 get '/alpha/route/:id' do |route|
   content_type 'application/xml', :charset => 'utf-8'
@@ -29,6 +26,13 @@ end
 get '/alpha/route/:id/busses' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   build_xml(route, "busses")
+end
+
+get '/alpha/route/:id/busses.kml' do |route|
+  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+  content_type 'application/xml', :charset => 'utf-8'
+  
+  build_kml(route, "busses")
 end
 
 get '/alpha/routes/' do
@@ -147,8 +151,9 @@ def build_xml(route, section)
           bus.bus { |b|
             b.lat bus_data[0]
             b.lng bus_data[1]
-            b.direction bus_data[2]
-            b.nextstop bus_data[3]
+            b.direction bus_data[3].split('<br>')[0]
+            b.comment! "No clue what Next Timepoint is???"
+            b.destination bus_data[3].split('<br>')[1]
           }
         end
       }
@@ -157,4 +162,45 @@ def build_xml(route, section)
   }
 
   return xml
+end
+
+def build_kml(route, section)
+  response = HTTParty.get("http://www.suntran.com/webwatch/UpdateWebMap.aspx?u=#{route}")  
+  res = response.body.split('*')
+  builder = Builder::XmlMarkup.new
+
+  builder.instruct!
+  builder.comment! "proxy service to access the SunTran WebWatch data."
+
+  
+  kml = builder.kml(:xmlns => "http://www.opengis.net/kml/2.2") { |root|
+    root.Document { |doc|
+      
+      doc.Style(:id => "busMark") { |style|
+        style.IconStyle { |iconstyle|
+          iconstyle.Icon { |icon|
+            icon.href "../../../images/BusEast.png"
+          }
+        }
+        
+      }
+      if section == "all" || section == "busses"    
+        s_busses     = res[2].split(';')
+
+        s_busses.each do |s_bus|
+          bus_data = s_bus.split('|')
+          doc.Placemark { |p|
+            p.styleUrl "#busMark"
+            p.name "Testing"
+            p.comment! "No clue what Next Timepoint is???"
+            p.description bus_data[3].split('<br>')[1]
+            p.Point { |point|
+              point.coordinates "#{bus_data[1]},#{bus_data[0]},0"
+            }
+          }
+        end
+
+      end
+    }
+  }
 end
