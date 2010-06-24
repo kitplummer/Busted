@@ -1,0 +1,14 @@
+%html{:xmlns => "http://www.w3.org/1999/xhtml", "xml:lang" => "en", :lang => "en"}
+    %body
+        %h2 Busted: A SunTran WebWatch Feed Proxy
+        %br
+        %h3 GETful API
+        %a(href="/routes/") /routes/ - Returns listing of routes
+        %br
+        %a(href="/route/1") /route/1 - Returns all information
+        %br
+        %a(href="/route/1/stations") /route/1/stations - Returns all stations for route
+        %br
+        %a(href="/route/1/stops") /route/1/stops - Returns all stops (including stations) for route
+        %br
+        %a(href="/route/1/busses") /route/1/busses - Returns all busses on route, including positions
