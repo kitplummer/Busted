@@ -11,10 +11,10 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
 
-
+        %title Busted!
     %body
         %h2 Busted: A SunTran WebWatch Feed Proxy
-        %h3 GETful API
+        %h3 GETful API (currently only returns XML, JSON possible in future)
         %a(href="/alpha/routes/") /alpha/routes/ - Returns listing of routes
         %br
         %a(href="/alpha/route/1") /alpha/route/1 - Returns all information
@@ -25,7 +25,17 @@
         %br
         %a(href="/alpha/route/1/busses") /alpha/route/1/busses - Returns all busses on route, including positions
         %br
+        %h3 KML for Google Earth/Maps, Other Mapping Tools
         %p Just scratching KML support...but here's a taste (I've tested in Google Earth).  For the sake of debugging I've not set the content_type to application/vnd.google-earth.kml+xml yet, because it is a dev/debug pain.  So, if you just want to download, you'll have to SaveAs from your browser.
-        %a(href="/alpha/route/1/busses.kml") /alpha/route/1/busses.kml 
+        %a(href="/alpha/route/1/busses.kml") /alpha/route/1/busses.kml
+        %p Here's a way to overlay route traces onto Google Earth.  It is just lines, without markers indicating stops.  Working on that now.
+        %a(href="/alpha/route/1/trace.kml") /alpha/route/1/trace.kml
+        %p To get the KML into Google Earth is pretty simple.  Select "Add" from the Google Earth menu, then click "Network Link".
+        %image(src="images/ge_menu.png")
+        %p Then, add a simple name, and copy the link in.
+        %image(src="images/ge_netlink.png")
+        %p Clock "OK", and the trace will appear in the map.
+        %image(src="images/ge_trace.png")
+        %p To get the busses to appear on the map, follow the same steps but use the busses.kml for that route. 
         %p The code for this thing is available at:
         %a(href="http://github.com/kitplummer/Busted") http://github.com/kitplummer/Busted
