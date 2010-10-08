@@ -11,22 +11,22 @@ get '/' do
   haml :index
 end
 
-get '/alpha/route/:id' do |route|
+get '/alpha/route/:id.xml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   Builder.xml(route, "all")
 end
 
-get '/alpha/route/:id/stations' do |route|
+get '/alpha/route/:id/stations.xml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   Builder.xml(route, "stations")
 end
 
-get '/alpha/route/:id/stops' do |route|
+get '/alpha/route/:id/stops.xml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   Builder.xml(route, "stops")
 end
 
-get '/alpha/route/:id/busses' do |route|
+get '/alpha/route/:id/busses.xml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   Builder.xml(route, "busses")
 end
@@ -49,7 +49,18 @@ get '/alpha/route/:id/trace.kml' do |route|
   Builders.trace_kml(route)
 end
 
-get '/alpha/routes/' do
+get '/beta/routes.json' do
+  content_type 'application/json', :charset => 'utf-8'
+  '''{"routes":[
+	{"id":"1", "name":"Glenn/Swan"},
+	{"id":"2", "name":"Cherrybell/Country Club"},
+	{"id":"3", "name":"6th St./Wilmot"},
+	{"id":"4", "name":"Speedway"},
+      	{"id":"5", "name":"Pima St./W. Speedway"}
+    ]}'''
+end
+
+get '/alpha/routes.xml' do
   content_type 'application/xml', :charset => 'utf-8'
 
   '''<routes>    
@@ -90,8 +101,8 @@ get '/alpha/routes/' do
   <route id="109X">Catalina Hwy-Downtown Express</route> 
   <route id="110X">Rita Ranch-Downtown Express</route> 
   <route id="201X">Eastside-Aero Park Express</route> 
-  <route id="202X">Northwest-Aero Park  Express</route> 
-  <route id="203X">Oro Valley-Aero Park  Express</route> 
+  <route id="202X">Northwest-Aero Park Express</route> 
+  <route id="203X">Oro Valley-Aero Park sExpress</route> 
   <route id="312X">Oro Valley-Tohono Express</route>
   </routes>'''
 end
