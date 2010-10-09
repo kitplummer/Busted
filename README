@@ -1,3 +1,5 @@
+[NOTE: Busted is currently being redesigned to better support JSON, XML, and KML.]
+
 Hello.  I'm a simple proxy to the SunTran WebWatch feed, rebroadcasted as a straight XML file. :)
 
 I am running at http://busted.heroku.com right now...maybe.
