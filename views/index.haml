@@ -13,26 +13,37 @@
 
         %title Busted!
     %body
-        %h2 Busted: A SunTran WebWatch Feed Proxy
+        %h1 Busted: A SunTran WebWatch Feed Proxy
         %a(href="http://www.suntran.com/webwatch/") Click here for SunTran's site
         %p The WebWatch services uses this feed:
         %a(href="http://www.suntran.com/webwatch/UpdateWebMap.aspx?u=1") http://www.suntran.com/webwatch/UpdateWebMap.aspx?u=1
-        %h3 GETful API (currently only returns XML, JSON possible in future)
-        %a(href="http://busted.kitplummer.apigee.com/alpha/routes.xml") http://busted.kitplummer.apigee.com/alpha/routes.xml - Returns listing of routes
+        %h2 GETful API
+        %p [NOTE: all http://busted.kitplummer/apigee.com/alpha/* URLs are deprecated.]
+        %h3 Returns listing of all routes in XML or JSON
+        %a(href="http://busted.kitplummer.apigee.com/beta/routes.xml") http://busted.kitplummer.apigee.com/beta/routes.xml
         %br
-        %a(href="http://busted.kitplummer.apigee.com/alpha/route/1") http://busted.kitplummer.apigee.com/alpha/route/1 - Returns all information
+        %a(href="http://busted.kitplummer.apigee.com/beta/routes.json") http://busted.kitplummer.apigee.com/beta/routes.json
+        %h3 Returns all information about a given route in XML or JSON
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1.xml") http://busted.kitplummer.apigee.com/beta/route/1.xml
         %br
-        %a(href="http://busted.kitplummer.apigee.com/alpha/route/1/stations") http://busted.kitplummer.apigee.com/alpha/route/1/stations - Returns all stations for route
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1.json") http://busted.kitplummer.apigee.com/beta/route/1.json
+        %h3 Returns all stations for route in XML or JSON
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1/stations.xml") http://busted.kitplummer.apigee.com/beta/route/1/stations.xml
         %br
-        %a(href="http://busted.kitplummer.apigee.com/alpha/route/1/stops") http://busted.kitplummer.apigee.com/alpha/route/1/stops - Returns all stops (including stations) for route
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1/stations.json") http://busted.kitplummer.apigee.com/beta/route/1/stations.json
+        %h3 Returns all stops (including stations) for route in XML or JSON
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1/stops.xml") http://busted.kitplummer.apigee.com/beta/route/1/stops.xml
         %br
-        %a(href="http://busted.kitplummer.apigee.com/alpha/route/1/busses") http://busted.kitplummer.apigee.com/alpha/route/1/busses - Returns all busses on route, including positions
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1/stops.json") http://busted.kitplummer.apigee.com/beta/route/1/stops.json
+        %h3 Returns all busses on route, including positions in XML or JSON
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1/busses.xml") http://busted.kitplummer.apigee.com/beta/route/1/busses.xml
         %br
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1/busses.json") http://busted.kitplummer.apigee.com/beta/route/1/busses.json
         %h3 KML for Google Earth/Maps, Other Mapping Tools
         %p Just scratching KML support...but here's a taste (I've tested in Google Earth).  For the sake of debugging I've not set the content_type to application/vnd.google-earth.kml+xml yet, because it is a dev/debug pain.  So, if you just want to download, you'll have to SaveAs from your browser.
-        %a(href="http://busted.kitplummer.apigee.com/alpha/route/1/busses.kml") http://busted.kitplummer.apigee.com/alpha/route/1/busses.kml
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1/busses.kml") http://busted.kitplummer.apigee.com/alpha/route/1/busses.kml
         %p Here's a way to overlay route traces onto Google Earth.  It is just lines, without markers indicating stops.  Working on that now.
-        %a(href="http://busted.kitplummer.apigee.com/alpha/route/1/trace.kml") http://busted.kitplummer.apigee.com/alpha/route/1/trace.kml
+        %a(href="http://busted.kitplummer.apigee.com/beta/route/1/trace.kml") http://busted.kitplummer.apigee.com/alpha/route/1/trace.kml
         %p To get the KML into Google Earth is pretty simple.  Select "Add" from the Google Earth menu, then click "Network Link".
         %image(src="images/ge_menu.png")
         %p Then, add a simple name, and copy the link in.

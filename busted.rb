@@ -1,52 +1,120 @@
 require 'rubygems'
 require 'sinatra'
 require 'httparty'
-require 'builder'
 require 'haml'
 
 # XML and KML output builders
-require 'builders'
+require 'busted_xml'
+
+# JSON builders
+require 'busted_json'
 
 get '/' do 
   haml :index
 end
 
+#### ALPHA API Routes ####
 get '/alpha/route/:id.xml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
-  Builder.xml(route, "all")
+  BustedXml.xml(route, "all")
 end
 
 get '/alpha/route/:id/stations.xml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
-  Builder.xml(route, "stations")
+  BustedXml.xml(route, "stations")
 end
 
 get '/alpha/route/:id/stops.xml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
-  Builder.xml(route, "stops")
+  BustedXml.xml(route, "stops")
 end
 
 get '/alpha/route/:id/busses.xml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
-  Builder.xml(route, "busses")
+  BustedXml.xml(route, "busses")
 end
+
+### KML ###
 
 get '/alpha/route/:id/busses.kml' do |route|
   #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
   content_type 'application/xml', :charset => 'utf-8'
-  Builder.kml(route, "busses")
+  BustedXml.kml(route, "busses")
 end
 
 get '/alpha/route/:id/stops.kml' do |route|
   #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
   content_type 'application/xml', :charset => 'utf-8'
-  Builder.kml(route, "stops")
+  BustedXml.kml(route, "stops")
 end
 
 # In development generation of route lines in KML
 get '/alpha/route/:id/trace.kml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
-  Builders.trace_kml(route)
+  BustedXml.trace_kml(route)
+end
+
+#### Beta API Routes ####
+get '/beta/route/:id.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "all")
+end
+
+get '/beta/route/:id/stations.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "stations")
+end
+
+get '/beta/route/:id/stops.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "stops")
+end
+
+get '/beta/route/:id/busses.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "busses")
+end
+
+### JSON ###
+
+get '/beta/route/:id.json' do |route|
+  content_type 'application/json', :charset => 'utf-8'
+  BustedJson.all(route)
+end
+
+get '/beta/route/:id/stations.json' do |route|
+  content_type 'application/json', :charset => 'utf-8'
+  BustedJson.stations(route)
+end
+
+get '/beta/route/:id/stops.json' do |route|
+  content_type 'application/json', :charset => 'utf-8'
+  BustedJson.stops(route)
+end
+
+get '/beta/route/:id/busses.json' do |route|
+  content_type 'application/json', :charset => 'utf-8'
+  BustedJson.busses(route)
+end
+
+### KML ###
+
+get '/beta/route/:id/busses.kml' do |route|
+  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.kml(route, "busses")
+end
+
+get '/beta/route/:id/stops.kml' do |route|
+  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.kml(route, "stops")
+end
+
+# In development generation of route lines in KML
+get '/beta/route/:id/trace.kml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.trace_kml(route)
 end
 
 get '/beta/routes.json' do
@@ -95,7 +163,7 @@ get '/beta/routes.json' do
     ]}'''
 end
 
-get '/alpha/routes.xml' do
+get '/beta/routes.xml' do
   content_type 'application/xml', :charset => 'utf-8'
 
   '''<routes>    

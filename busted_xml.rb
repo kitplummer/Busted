@@ -1,5 +1,11 @@
-module Builders
-  def Builders.trace_kml(route)
+require 'bus'
+require 'stop'
+require 'route'
+require 'station'
+require 'builder'
+
+module BustedXml
+  def BustedXml.trace_kml(route)
     response = HTTParty.get("http://www.suntran.com/webwatch/Scripts/Route#{route}_trace.js")
     js_trace = response.body.split('*')[1].split('|')
     
@@ -46,8 +52,14 @@ module Builders
       }
     }
   end
+
+  def BustedXml.json(route, section)
+    response = HTTParty.get("http://www.suntran.com/webwatch/UpdateWebMap.aspx?u=#{route}")  
+    res = response.body.split('*')
+    r = Route.new(res[0],route)
+  end
   
-  def Builder.xml(route, section)
+  def BustedXml.xml(route, section)
     response = HTTParty.get("http://www.suntran.com/webwatch/UpdateWebMap.aspx?u=#{route}")  
     res = response.body.split('*')
     builder = Builder::XmlMarkup.new
@@ -81,7 +93,7 @@ module Builders
           end
         }
       end
-      puts "SECTION #{section}"
+ #     puts "SECTION #{section}"
       # stops and departures
 
       if section == "all" || section == "stops"
@@ -129,7 +141,7 @@ module Builders
     return xml
   end
 
-  def Builder.kml(route, section)
+  def BustedXml.kml(route, section)
     response = HTTParty.get("http://www.suntran.com/webwatch/UpdateWebMap.aspx?u=#{route}")  
     res = response.body.split('*')
     builder = Builder::XmlMarkup.new
