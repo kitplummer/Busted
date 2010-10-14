@@ -2,4 +2,4 @@
 
 Hello.  I'm a simple proxy to the SunTran WebWatch feed, rebroadcasted as a straight XML file. :)
 
-I am running at http://busted.heroku.com right now...maybe.
+I am running at http://busted.kitplummer.apigee.com - which is a service proxy - right now...maybe.
