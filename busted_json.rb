@@ -8,7 +8,7 @@ require 'bus'
 module BustedJson
     def BustedJson.all(route)
         @res = fetch(route)
-        @r = Route.new(@res[0], 1)
+        @r = Route.new(route, @res[0])
         parse_stations(@res, @r)
         parse_stops(@res, @r)
         parse_busses(@res, @r)
@@ -17,21 +17,21 @@ module BustedJson
 
     def BustedJson.stations(route)
         @res = fetch(route)
-        @r = Route.new(@res[0],route)
+        @r = Route.new(route, @res[0])
         parse_stations(@res, @r)
         @r.to_json
     end
 
     def BustedJson.stops(route)
         @res = fetch(route)
-        @r = Route.new(@res[0],route)
+        @r = Route.new(route, @res[0])
         parse_stops(@res, @r)
         @r.to_json
     end
 
     def BustedJson.busses(route)
         @res = fetch(route)
-        @r = Route.new(route)
+        @r = Route.new(route, @res[0])
         parse_busses(@res, @r)
         @r.to_json
     end
