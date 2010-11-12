@@ -118,7 +118,8 @@ module BustedXml
       end
       # busses
       # Bus: 32.1898495|-110.9292197|2|<b>South </b><br>Next Timepoint: FORGEUS AT PRESIDENT (KINO HOSP)
-
+      # Bus direction contains unnecessary markup
+      
       if section == "all" || section == "busses"    
         s_busses     = res[2].split(';')
 
@@ -128,7 +129,7 @@ module BustedXml
             bus.bus { |b|
               b.lat bus_data[0]
               b.lng bus_data[1]
-              b.direction bus_data[3].split('<br>')[0]
+              b.direction bus_data[3].split('<br>')[0].gsub(/<\/?[^>]*>/, "").strip
               b.comment! "No clue what Next Timepoint is???"
               b.destination bus_data[3].split('<br>')[1]
             }

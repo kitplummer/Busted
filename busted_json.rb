@@ -64,7 +64,7 @@ module BustedJson
         busses = res[2].split(';')
         busses.each do |bus|
             bd = bus.split('|')
-            b = Bus.new(bd[0],bd[1],bd[3].split('<br>')[0],bd[3].split('<br>')[1])
+            b = Bus.new(bd[0],bd[1],bd[3].split('<br>')[0].gsub(/<\/?[^>]*>/, "").strip,bd[3].split('<br>')[1])
             route.busses << b
         end
     end
