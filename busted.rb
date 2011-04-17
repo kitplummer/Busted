@@ -78,23 +78,62 @@ end
 ### JSON ###
 
 get '/beta/route/:id.json' do |route|
-  content_type 'application/json', :charset => 'utf-8'
-  BustedJson.all(route)
+  callback = params.delete('callback') #for jsonp
+  json = BustedJson.all(route)
+
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
+  end
+  
+  response
 end
 
 get '/beta/route/:id/stations.json' do |route|
-  content_type 'application/json', :charset => 'utf-8'
-  BustedJson.stations(route)
+  callback = params.delete('callback')
+  json = BustedJson.stations(route)
+  
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
+  end
+  
+  response
 end
 
 get '/beta/route/:id/stops.json' do |route|
-  content_type 'application/json', :charset => 'utf-8'
-  BustedJson.stops(route)
+  callback = params.delete('callback')
+  json = BustedJson.stops(route)
+  
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
+  end
+  
+  response
 end
 
 get '/beta/route/:id/busses.json' do |route|
-  content_type 'application/json', :charset => 'utf-8'
-  BustedJson.busses(route)
+  callback = params.delete('callback')
+  json =   BustedJson.busses(route)
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
+  end
+  
+  response
 end
 
 ### KML ###
