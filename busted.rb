@@ -157,8 +157,9 @@ get '/beta/route/:id/trace.kml' do |route|
 end
 
 get '/beta/routes.json' do
-  content_type 'application/json', :charset => 'utf-8'
-  '''{"routes":[
+  callback = params.delete('callback')
+  
+  json = '''{"routes":[
 	{"id":"1", "name":"Glenn/Swan"},
 	{"id":"2", "name":"Cherrybell/Country Club"},
 	{"id":"3", "name":"6th St./Wilmot"},
@@ -200,6 +201,16 @@ get '/beta/routes.json' do
 	{"id":"203X", "name":"Oro Valley-Aero Park Express"},
 	{"id":"312X", "name":"Oro Valley-Tohono Express"}
     ]}'''
+    
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
+  end
+
+  response
 end
 
 get '/beta/routes.xml' do
