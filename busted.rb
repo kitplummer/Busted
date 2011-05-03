@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'sinatra'
+require 'sinatra/base'
 require 'httparty'
 require 'haml'
 
@@ -9,214 +9,215 @@ require 'busted_xml'
 # JSON builders
 require 'busted_json'
 
-get '/' do 
-  haml :index
-end
-
-#### ALPHA API Routes ####
-get '/alpha/route/:id.xml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.xml(route, "all")
-end
-
-get '/alpha/route/:id/stations.xml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.xml(route, "stations")
-end
-
-get '/alpha/route/:id/stops.xml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.xml(route, "stops")
-end
-
-get '/alpha/route/:id/busses.xml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.xml(route, "busses")
-end
-
-### KML ###
-
-get '/alpha/route/:id/busses.kml' do |route|
-  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.kml(route, "busses")
-end
-
-get '/alpha/route/:id/stops.kml' do |route|
-  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.kml(route, "stops")
-end
-
-# In development generation of route lines in KML
-get '/alpha/route/:id/trace.kml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.trace_kml(route)
-end
-
-#### Beta API Routes ####
-get '/beta/route/:id.xml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.xml(route, "all")
-end
-
-get '/beta/route/:id/stations.xml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.xml(route, "stations")
-end
-
-get '/beta/route/:id/stops.xml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.xml(route, "stops")
-end
-
-get '/beta/route/:id/busses.xml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.xml(route, "busses")
-end
-
-### JSON ###
-
-get '/beta/route/:id.json' do |route|
-  callback = params.delete('callback') #for jsonp
-  json = BustedJson.all(route)
-
-  if callback
-    content_type :js
-    response = "#{callback}(#{json})"
-  else
-    content_type 'application/json', :charset => 'utf-8'
-    response = json
+class Busted < Sinatra::Base
+  get '/' do 
+    haml :index
   end
-  
-  response
-end
 
-get '/beta/route/:id/stations.json' do |route|
-  callback = params.delete('callback')
-  json = BustedJson.stations(route)
-  
-  if callback
-    content_type :js
-    response = "#{callback}(#{json})"
-  else
-    content_type 'application/json', :charset => 'utf-8'
-    response = json
+  #### ALPHA API Routes ####
+  get '/alpha/route/:id.xml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.xml(route, "all")
   end
-  
-  response
-end
 
-get '/beta/route/:id/stops.json' do |route|
-  callback = params.delete('callback')
-  json = BustedJson.stops(route)
-  
-  if callback
-    content_type :js
-    response = "#{callback}(#{json})"
-  else
-    content_type 'application/json', :charset => 'utf-8'
-    response = json
+  get '/alpha/route/:id/stations.xml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.xml(route, "stations")
   end
-  
-  response
-end
 
-get '/beta/route/:id/busses.json' do |route|
-  callback = params.delete('callback')
-  json =   BustedJson.busses(route)
-  if callback
-    content_type :js
-    response = "#{callback}(#{json})"
-  else
-    content_type 'application/json', :charset => 'utf-8'
-    response = json
+  get '/alpha/route/:id/stops.xml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.xml(route, "stops")
   end
-  
-  response
-end
 
-### KML ###
+  get '/alpha/route/:id/busses.xml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.xml(route, "busses")
+  end
 
-get '/beta/route/:id/busses.kml' do |route|
-  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.kml(route, "busses")
-end
+  ### KML ###
 
-get '/beta/route/:id/stops.kml' do |route|
-  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.kml(route, "stops")
-end
+  get '/alpha/route/:id/busses.kml' do |route|
+    #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.kml(route, "busses")
+  end
 
-# In development generation of route lines in KML
-get '/beta/route/:id/trace.kml' do |route|
-  content_type 'application/xml', :charset => 'utf-8'
-  BustedXml.trace_kml(route)
-end
+  get '/alpha/route/:id/stops.kml' do |route|
+    #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.kml(route, "stops")
+  end
 
-get '/beta/routes.json' do
-  callback = params.delete('callback')
-  
-  json = '''{"routes":[
-	{"id":"1", "name":"Glenn/Swan"},
-	{"id":"2", "name":"Cherrybell/Country Club"},
-	{"id":"3", "name":"6th St./Wilmot"},
-	{"id":"4", "name":"Speedway"},
-      	{"id":"5", "name":"Pima St./W. Speedway"},
-	{"id":"6", "name":"S. Park Ave./N. 1st Ave."},
-	{"id":"7", "name":"22nd St."},
-	{"id":"8", "name":"Broadway/6th Ave."},
-	{"id":"9", "name":"Grant"},
-	{"id":"10", "name":"Flowing Wells"},
-	{"id":"11", "name":"Alvernon"},
-	{"id":"15", "name":"Campbell"},
-	{"id":"16", "name":"12th Ave./Oracle"},
-	{"id":"17", "name":"Country Club/29th St."},
-	{"id":"19", "name":"Stone"},
-	{"id":"20", "name":"W. Grant/Ironwood Hills"},
-	{"id":"21", "name":"W. Congress/Silverbell"},
-	{"id":"22", "name":"Grande"},
-	{"id":"23", "name":"Mission"},
-	{"id":"24", "name":"12th Avenue"},
-	{"id":"26", "name":"Benson Highway"},
-	{"id":"27", "name":"Midvale Park"},
-	{"id":"29", "name":"Valencia"},
-	{"id":"34", "name":"Craycroft"},
-	{"id":"37", "name":"Pantano"},
-	{"id":"50", "name":"Ajo Way"},
-	{"id":"61", "name":"La Cholla"},
-	{"id":"101X", "name":"Golf Links-Downtown Express"},
-	{"id":"102X", "name":"Northwest-UA Express"},
-	{"id":"103X", "name":"Northwest-Downtown Express"},
-	{"id":"104X", "name":"Marana-Downtown Express"},
-	{"id":"105X", "name":"Foothills-Downtown Express"},
-	{"id":"107X", "name":"Oro Valley-Downtown Express"},
-	{"id":"108X", "name":"Broadway-Downtown Express"},
-	{"id":"109X", "name":"Catalina Hwy-Downtown Express"},
-	{"id":"110X", "name":"Rita Ranch-Downtown Express"},
-	{"id":"201X", "name":"Eastside-Aero Park Express"},
-	{"id":"202X", "name":"Northwest-Aero Park Express"},
-	{"id":"203X", "name":"Oro Valley-Aero Park Express"},
-	{"id":"312X", "name":"Oro Valley-Tohono Express"}
+  # In development generation of route lines in KML
+  get '/alpha/route/:id/trace.kml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.trace_kml(route)
+  end
+
+  #### Beta API Routes ####
+  get '/beta/route/:id.xml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.xml(route, "all")
+  end
+
+  get '/beta/route/:id/stations.xml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.xml(route, "stations")
+  end
+
+  get '/beta/route/:id/stops.xml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.xml(route, "stops")
+  end
+
+  get '/beta/route/:id/busses.xml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.xml(route, "busses")
+  end
+
+  ### JSON ###
+
+  get '/beta/route/:id.json' do |route|
+    callback = params.delete('callback') #for jsonp
+    json = BustedJson.all(route)
+
+    if callback
+      content_type :js
+      response = "#{callback}(#{json})"
+    else
+      content_type 'application/json', :charset => 'utf-8'
+      response = json
+    end
+
+    response
+  end
+
+  get '/beta/route/:id/stations.json' do |route|
+    callback = params.delete('callback')
+    json = BustedJson.stations(route)
+
+    if callback
+      content_type :js
+      response = "#{callback}(#{json})"
+    else
+      content_type 'application/json', :charset => 'utf-8'
+      response = json
+    end
+
+    response
+  end
+
+  get '/beta/route/:id/stops.json' do |route|
+    callback = params.delete('callback')
+    json = BustedJson.stops(route)
+
+    if callback
+      content_type :js
+      response = "#{callback}(#{json})"
+    else
+      content_type 'application/json', :charset => 'utf-8'
+      response = json
+    end
+
+    response
+  end
+
+  get '/beta/route/:id/busses.json' do |route|
+    callback = params.delete('callback')
+    json =   BustedJson.busses(route)
+    if callback
+      content_type :js
+      response = "#{callback}(#{json})"
+    else
+      content_type 'application/json', :charset => 'utf-8'
+      response = json
+    end
+
+    response
+  end
+
+  ### KML ###
+
+  get '/beta/route/:id/busses.kml' do |route|
+    #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.kml(route, "busses")
+  end
+
+  get '/beta/route/:id/stops.kml' do |route|
+    #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.kml(route, "stops")
+  end
+
+  # In development generation of route lines in KML
+  get '/beta/route/:id/trace.kml' do |route|
+    content_type 'application/xml', :charset => 'utf-8'
+    BustedXml.trace_kml(route)
+  end
+
+  get '/beta/routes.json' do
+    callback = params.delete('callback')
+
+    json = '''{"routes":[
+  {"id":"1", "name":"Glenn/Swan"},
+  {"id":"2", "name":"Cherrybell/Country Club"},
+  {"id":"3", "name":"6th St./Wilmot"},
+  {"id":"4", "name":"Speedway"},
+        {"id":"5", "name":"Pima St./W. Speedway"},
+  {"id":"6", "name":"S. Park Ave./N. 1st Ave."},
+  {"id":"7", "name":"22nd St."},
+  {"id":"8", "name":"Broadway/6th Ave."},
+  {"id":"9", "name":"Grant"},
+  {"id":"10", "name":"Flowing Wells"},
+  {"id":"11", "name":"Alvernon"},
+  {"id":"15", "name":"Campbell"},
+  {"id":"16", "name":"12th Ave./Oracle"},
+  {"id":"17", "name":"Country Club/29th St."},
+  {"id":"19", "name":"Stone"},
+  {"id":"20", "name":"W. Grant/Ironwood Hills"},
+  {"id":"21", "name":"W. Congress/Silverbell"},
+  {"id":"22", "name":"Grande"},
+  {"id":"23", "name":"Mission"},
+  {"id":"24", "name":"12th Avenue"},
+  {"id":"26", "name":"Benson Highway"},
+  {"id":"27", "name":"Midvale Park"},
+  {"id":"29", "name":"Valencia"},
+  {"id":"34", "name":"Craycroft"},
+  {"id":"37", "name":"Pantano"},
+  {"id":"50", "name":"Ajo Way"},
+  {"id":"61", "name":"La Cholla"},
+  {"id":"101X", "name":"Golf Links-Downtown Express"},
+  {"id":"102X", "name":"Northwest-UA Express"},
+  {"id":"103X", "name":"Northwest-Downtown Express"},
+  {"id":"104X", "name":"Marana-Downtown Express"},
+  {"id":"105X", "name":"Foothills-Downtown Express"},
+  {"id":"107X", "name":"Oro Valley-Downtown Express"},
+  {"id":"108X", "name":"Broadway-Downtown Express"},
+  {"id":"109X", "name":"Catalina Hwy-Downtown Express"},
+  {"id":"110X", "name":"Rita Ranch-Downtown Express"},
+  {"id":"201X", "name":"Eastside-Aero Park Express"},
+  {"id":"202X", "name":"Northwest-Aero Park Express"},
+  {"id":"203X", "name":"Oro Valley-Aero Park Express"},
+  {"id":"312X", "name":"Oro Valley-Tohono Express"}
     ]}'''
-    
-  if callback
-    content_type :js
-    response = "#{callback}(#{json})"
-  else
-    content_type 'application/json', :charset => 'utf-8'
-    response = json
+
+    if callback
+      content_type :js
+      response = "#{callback}(#{json})"
+    else
+      content_type 'application/json', :charset => 'utf-8'
+      response = json
+    end
+
+    response
   end
 
-  response
-end
+  get '/beta/routes.xml' do
+    content_type 'application/xml', :charset => 'utf-8'
 
-get '/beta/routes.xml' do
-  content_type 'application/xml', :charset => 'utf-8'
-
-  '''<routes>    
+    '''<routes>    
   <route id="1">Glenn/Swan</route> 
   <route id="2">Cherrybell/Country Club</route> 
   <route id="3">6th St./Wilmot</route> 
@@ -258,5 +259,5 @@ get '/beta/routes.xml' do
   <route id="203X">Oro Valley-Aero Park sExpress</route> 
   <route id="312X">Oro Valley-Tohono Express</route>
   </routes>'''
+  end
 end
-
