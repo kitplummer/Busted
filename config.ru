@@ -1,3 +1,3 @@
 require 'busted'
 
-run Busted
+run Sinatra::Application

@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'sinatra/base'
+require 'sinatra'
 require 'httparty'
 require 'haml'
 
@@ -9,158 +9,157 @@ require 'busted_xml'
 # JSON builders
 require 'busted_json'
 
-class Busted < Sinatra::Base
-  get '/' do 
-    haml :index
+get '/' do 
+  haml :index
+end
+
+#### ALPHA API Routes ####
+get '/alpha/route/:id.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "all")
+end
+
+get '/alpha/route/:id/stations.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "stations")
+end
+
+get '/alpha/route/:id/stops.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "stops")
+end
+
+get '/alpha/route/:id/busses.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "busses")
+end
+
+### KML ###
+
+get '/alpha/route/:id/busses.kml' do |route|
+  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.kml(route, "busses")
+end
+
+get '/alpha/route/:id/stops.kml' do |route|
+  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.kml(route, "stops")
+end
+
+# In development generation of route lines in KML
+get '/alpha/route/:id/trace.kml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.trace_kml(route)
+end
+
+#### Beta API Routes ####
+get '/beta/route/:id.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "all")
+end
+
+get '/beta/route/:id/stations.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "stations")
+end
+
+get '/beta/route/:id/stops.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "stops")
+end
+
+get '/beta/route/:id/busses.xml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.xml(route, "busses")
+end
+
+### JSON ###
+
+get '/beta/route/:id.json' do |route|
+  callback = params.delete('callback') #for jsonp
+  json = BustedJson.all(route)
+
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
   end
 
-  #### ALPHA API Routes ####
-  get '/alpha/route/:id.xml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.xml(route, "all")
+  response
+end
+
+get '/beta/route/:id/stations.json' do |route|
+  callback = params.delete('callback')
+  json = BustedJson.stations(route)
+
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
   end
 
-  get '/alpha/route/:id/stations.xml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.xml(route, "stations")
+  response
+end
+
+get '/beta/route/:id/stops.json' do |route|
+  callback = params.delete('callback')
+  json = BustedJson.stops(route)
+
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
   end
 
-  get '/alpha/route/:id/stops.xml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.xml(route, "stops")
+  response
+end
+
+get '/beta/route/:id/busses.json' do |route|
+  callback = params.delete('callback')
+  json =   BustedJson.busses(route)
+  if callback
+    content_type :js
+    response = "#{callback}(#{json})"
+  else
+    content_type 'application/json', :charset => 'utf-8'
+    response = json
   end
 
-  get '/alpha/route/:id/busses.xml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.xml(route, "busses")
-  end
+  response
+end
 
-  ### KML ###
+### KML ###
 
-  get '/alpha/route/:id/busses.kml' do |route|
-    #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.kml(route, "busses")
-  end
+get '/beta/route/:id/busses.kml' do |route|
+  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.kml(route, "busses")
+end
 
-  get '/alpha/route/:id/stops.kml' do |route|
-    #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.kml(route, "stops")
-  end
+get '/beta/route/:id/stops.kml' do |route|
+  #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.kml(route, "stops")
+end
 
-  # In development generation of route lines in KML
-  get '/alpha/route/:id/trace.kml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.trace_kml(route)
-  end
+# In development generation of route lines in KML
+get '/beta/route/:id/trace.kml' do |route|
+  content_type 'application/xml', :charset => 'utf-8'
+  BustedXml.trace_kml(route)
+end
 
-  #### Beta API Routes ####
-  get '/beta/route/:id.xml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.xml(route, "all")
-  end
+get '/beta/routes.json' do
+  callback = params.delete('callback')
 
-  get '/beta/route/:id/stations.xml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.xml(route, "stations")
-  end
-
-  get '/beta/route/:id/stops.xml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.xml(route, "stops")
-  end
-
-  get '/beta/route/:id/busses.xml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.xml(route, "busses")
-  end
-
-  ### JSON ###
-
-  get '/beta/route/:id.json' do |route|
-    callback = params.delete('callback') #for jsonp
-    json = BustedJson.all(route)
-
-    if callback
-      content_type :js
-      response = "#{callback}(#{json})"
-    else
-      content_type 'application/json', :charset => 'utf-8'
-      response = json
-    end
-
-    response
-  end
-
-  get '/beta/route/:id/stations.json' do |route|
-    callback = params.delete('callback')
-    json = BustedJson.stations(route)
-
-    if callback
-      content_type :js
-      response = "#{callback}(#{json})"
-    else
-      content_type 'application/json', :charset => 'utf-8'
-      response = json
-    end
-
-    response
-  end
-
-  get '/beta/route/:id/stops.json' do |route|
-    callback = params.delete('callback')
-    json = BustedJson.stops(route)
-
-    if callback
-      content_type :js
-      response = "#{callback}(#{json})"
-    else
-      content_type 'application/json', :charset => 'utf-8'
-      response = json
-    end
-
-    response
-  end
-
-  get '/beta/route/:id/busses.json' do |route|
-    callback = params.delete('callback')
-    json =   BustedJson.busses(route)
-    if callback
-      content_type :js
-      response = "#{callback}(#{json})"
-    else
-      content_type 'application/json', :charset => 'utf-8'
-      response = json
-    end
-
-    response
-  end
-
-  ### KML ###
-
-  get '/beta/route/:id/busses.kml' do |route|
-    #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.kml(route, "busses")
-  end
-
-  get '/beta/route/:id/stops.kml' do |route|
-    #content_type 'application/vnd.google-earth.kml+xml', :charset => 'utf-8'
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.kml(route, "stops")
-  end
-
-  # In development generation of route lines in KML
-  get '/beta/route/:id/trace.kml' do |route|
-    content_type 'application/xml', :charset => 'utf-8'
-    BustedXml.trace_kml(route)
-  end
-
-  get '/beta/routes.json' do
-    callback = params.delete('callback')
-
-    json = '''{"routes":[
+  json = '''{"routes":[
   {"id":"1", "name":"Glenn/Swan"},
   {"id":"2", "name":"Cherrybell/Country Club"},
   {"id":"3", "name":"6th St./Wilmot"},
@@ -212,12 +211,12 @@ class Busted < Sinatra::Base
     end
 
     response
-  end
+end
 
-  get '/beta/routes.xml' do
-    content_type 'application/xml', :charset => 'utf-8'
+get '/beta/routes.xml' do
+  content_type 'application/xml', :charset => 'utf-8'
 
-    '''<routes>    
+  '''<routes>    
   <route id="1">Glenn/Swan</route> 
   <route id="2">Cherrybell/Country Club</route> 
   <route id="3">6th St./Wilmot</route> 
@@ -259,5 +258,4 @@ class Busted < Sinatra::Base
   <route id="203X">Oro Valley-Aero Park sExpress</route> 
   <route id="312X">Oro Valley-Tohono Express</route>
   </routes>'''
-  end
 end
