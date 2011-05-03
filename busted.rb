@@ -7,7 +7,6 @@ configure :production do
     require 'newrelic_rpm'
 end
 
-# XML and KML output builders
 require 'busted_xml'
 
 # JSON builders
