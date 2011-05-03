@@ -23,4 +23,4 @@ DEPENDENCIES
   httparty
   json
   newrelic_rpm
-  sinatra
+  sinatra (= 1.2.6)
