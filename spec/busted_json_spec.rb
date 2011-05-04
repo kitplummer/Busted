@@ -1,3 +1,6 @@
+# Copyright: Kit Plummer
+# http://creativecommons.org/licenses/by-sa/3.0/us/
+
 require File.dirname(__FILE__) + "/../busted_json"
 describe BustedJson, "all" do
     it 'returns valid json' do

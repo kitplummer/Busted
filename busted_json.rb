@@ -1,5 +1,6 @@
-#require 'rubygems'
-#require 'httparty'
+# Copyright: Kit Plummer
+# http://creativecommons.org/licenses/by-sa/3.0/us/
+
 require 'route'
 require 'station'
 require 'stop'

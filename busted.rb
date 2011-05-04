@@ -1,3 +1,6 @@
+# Copyright: Kit Plummer
+# http://creativecommons.org/licenses/by-sa/3.0/us/
+
 require 'rubygems'
 require 'sinatra'
 require 'httparty'

@@ -1,3 +1,6 @@
+# Copyright: Kit Plummer
+# http://creativecommons.org/licenses/by-sa/3.0/us/
+
 class Bus
     attr_accessor :lat, :lng, :direction, :destination
 
