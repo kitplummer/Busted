@@ -2,7 +2,6 @@ require 'bus'
 require 'stop'
 require 'route'
 require 'station'
-require 'builder'
 
 module BustedXml
   def BustedXml.trace_kml(route)

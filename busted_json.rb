@@ -1,5 +1,5 @@
-require 'rubygems'
-require 'httparty'
+#require 'rubygems'
+#require 'httparty'
 require 'route'
 require 'station'
 require 'stop'

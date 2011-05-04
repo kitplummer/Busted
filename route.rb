@@ -1,5 +1,3 @@
-require "json"
-
 class Route
     attr_accessor :id, :stations, :stops, :busses, :requested 
 

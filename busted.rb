@@ -2,6 +2,10 @@ require 'rubygems'
 require 'sinatra'
 require 'httparty'
 require 'haml'
+require 'nokogiri'
+require 'builder'
+require 'json'
+require 'open-uri'
 
 configure :production do
     require 'newrelic_rpm'
@@ -157,6 +161,30 @@ end
 get '/beta/route/:id/trace.kml' do |route|
   content_type 'application/xml', :charset => 'utf-8'
   BustedXml.trace_kml(route)
+end
+
+get '/test/routes.json' do 
+  content_type :json
+  
+  doc = Nokogiri::HTML(open("http://www.suntran.com/routes.php"))
+
+  # get the right tr elements
+  nodes = doc.xpath('/html/body/div[15]/table[2]/tr/td[@class = "bdr"]')
+
+  # load everything into an array
+  stuff = []
+  nodes.each do |node|
+    if node.text != "?"
+      stuff << node.text.lstrip.rstrip
+    end
+  end
+
+  # clean the junk
+  stuff.delete("\302\240")
+
+  h = Hash[*stuff]
+  # take a peek at the hash    
+  h.to_json
 end
 
 get '/beta/routes.json' do
