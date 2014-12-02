@@ -1,4 +1,4 @@
-source "https://rubygems.com"
+source "https://rubygems.org"
 gem 'sinatra', '1.2.6'
 gem 'httparty'
 gem 'haml'

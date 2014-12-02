@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.com/
+  remote: https://rubygems.org/
   specs:
     builder (3.0.0)
     crack (0.1.8)
