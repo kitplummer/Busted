@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.com/
   specs:
     builder (3.0.0)
     crack (0.1.8)
@@ -7,7 +7,10 @@ GEM
     httparty (0.7.7)
       crack (= 0.1.8)
     json (1.5.1)
+    mini_portile (0.6.1)
     newrelic_rpm (2.14.1)
+    nokogiri (1.6.5)
+      mini_portile (~> 0.6.0)
     rack (1.2.2)
     sinatra (1.2.6)
       rack (~> 1.1)
@@ -23,4 +26,5 @@ DEPENDENCIES
   httparty
   json
   newrelic_rpm
+  nokogiri
   sinatra (= 1.2.6)
