@@ -1,3 +1,8 @@
+# THIS PROJECT IS DEAD.  
+SunTran has created their own app, and are pushing data through Google too.  Much better.
+
+## Deprecated
+
 Busted is currently in beta form.  We'll be release v1 of the API soon.  Until then use at your own risk.  Well, even after that this software is without warranty. 
 
 Hello.  I'm a simple proxy to the SunTran WebWatch feed, rebroadcasted as a straight XML file. :)
